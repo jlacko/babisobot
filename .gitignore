@@ -33,5 +33,7 @@ vignettes/*.pdf
 *.knit.md
 .Rproj.user
 
+# Vlastní Babišobot:
 tajne-heslo.R
 heslo.rds
+ggplot.png
