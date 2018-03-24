@@ -53,9 +53,12 @@ plot20 <- ggplot(data = freq[1:20,], aes(x = reorder(word, -n), y = n)) +
         axis.text.x = element_text(angle = 90, hjust = 1),
         plot.title = element_text(size = rel(3), face = "bold", hjust = 0.5, 
                                   margin = margin(t = 10, b = 20, unit = "pt"))) +
-  labs(title = "Včera se stalo...")
+  labs(title = "Vox populii tweetuje")
 
 ggsave("ggplot.png", width = 16, height = 8, units = "in", dpi = 64) # čiliže 1024 na 512
 
 # publikovat tweet
-tweet(paste(dnes, ' - Babišobot pátrá, radí, informuje: v souvislosti s Andrejem Babišem nejčastěji zmiňujeme slovo "',freq[1,1],'"', sep = ""), mediaPath = "ggplot.png")
+tweet(paste('Babišobot pátrá, radí, informuje: v souvislosti s Andrejem Babišem jsme včera (', vcera, ') nejčastěji zmiňovali slovo "',freq[1,1],'".', sep = ""), mediaPath = "ggplot.png")
+
+# ať je v logu na co koukat... :)
+print(paste("Babišobot daily run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo", freq[1,1]))  
