@@ -53,6 +53,7 @@ plot20 <- ggplot(data = freq[1:20,], aes(x = reorder(word, -n), y = n)) +
   theme_xkcd() +
   theme(axis.title.x = element_blank(),
         axis.title.y = element_blank(),
+        axis.ticks = element_blank(),
         axis.text = element_text(size = rel(2)),
         axis.text.x = element_text(angle = 90, hjust = 1),
         plot.title = element_text(size = rel(3), face = "bold", hjust = 0.5, 
