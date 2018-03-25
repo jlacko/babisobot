@@ -1,7 +1,7 @@
 # Babišobot
 
-<div style="text-align:center" markdown="1">
-![](mugshot.png)
+<div style="text-align:center">
+<img src = "mugshot.png">
 </div>
 
 ### For my English speaking friends:
