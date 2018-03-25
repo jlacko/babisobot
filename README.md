@@ -1,8 +1,8 @@
 # Babišobot
 
-<div style="text-align:center">
-<img src = "mugshot.png">
-</div>
+<p align="center">
+  <img src="mugshot.png" alt="Maschinenmensch"/>
+</p>
 
 ### For my English speaking friends:
 Twitter bot gathering and reporting news about [Andrej Babiš](https://en.wikipedia.org/wiki/Andrej_Babi%C5%A1) (Czech politician).
