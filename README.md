@@ -1,7 +1,7 @@
 # Babišobot
 
 <p align="center">
-  <img src="mugshot.png" alt="Maschinenmensch"/>
+  <img src="Maschinenmensch.png" alt="Robot face"/>
 </p>
 
 ### For my English speaking friends:
@@ -16,6 +16,6 @@ Nepřemýšlí přitom, jestli jsme si povídali hezké či ošklivé věci, pod
 
 Babišobot je zcela organický, bez přidaného cukru či umělých barviv, a 100% open source.
 <hr>
-Technicky je napsaný v erku, pro připojení na Twitterové API využívá knihovny `twitteR`. Běží na Amazon AWS, spouštění má na starost cron přes knihovnu `cronR`.  
+Technicky je Babišobot napsaný v [erku](https://www.r-project.org/), pro připojení na Twitterové API využívá knihovny `twitteR`. Běží na Amazon AWS, spouštění má na starost cron přes knihovnu `cronR`.  
 
 Protože data jsou příliš cenná na to, aby se odreportováním zahodila, jsou všechny zpracované tweety uloženy v PostgreSQL databázi.
