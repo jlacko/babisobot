@@ -65,4 +65,37 @@ ggsave("ggplot.png", width = 16, height = 8, units = "in", dpi = 64) # čiliže 
 tweet(paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'".', sep = ""), mediaPath = "ggplot.png")
 
 # ať je v logu na co koukat... :)
-print(paste("Babišobot daily run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo", freq[1,1]))  
+print(paste("Babišobot twitter run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo", freq[1,1])) 
+
+
+
+# databázový běh: načíst posledních 3200 tweetů, uložit do stage vrstvy a nové IDčka překlopit do "ostré" tabulky
+suppressMessages(library(dbplyr))
+suppressMessages(library(DBI))
+suppressMessages(library(RPostgreSQL))
+
+myDb <- dbConnect(dbDriver('PostgreSQL'),
+                  host = "db.jla-data.net",
+                  port = 5432,
+                  user = heslo$user,
+                  dbname = "dbase",
+                  password = heslo$password)
+
+tweets <- suppressWarnings(searchTwitter(hledanyText, n = 3200, lang = "cs")) # bez ohledu na datum!
+tweets <- tbl_df(map_df(tweets, as.data.frame))
+
+tweets$text <- iconv(tweets$text, "UTF-8", "UTF-8", sub = '') # pryč s non-UTF-8 znaky (nahrazuju empty stringem)
+
+dbSendQuery(myDb, "truncate table stg_babisobot") # vyčištění stage vrstvy
+
+db_insert_into(con = myDb, # nainsertovat nové řádky do stage vrstvy
+               table = "stg_babisobot",
+               values = tweets) 
+
+dbSendQuery(myDb, "insert into babisobot select *, current_timestamp from stg_babisobot on conflict (id) do nothing") 
+  # překlopit stage
+
+dbDisconnect(myDb) # úklid
+
+# ať je v logu na co koukat... :)
+print(paste("Babišobot db run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), ".")) 
