@@ -61,7 +61,7 @@ plot20 <- ggplot(data = freq[1:20,], aes(x = reorder(word, -n), y = n)) +
         axis.text.x = element_text(angle = 90, hjust = 1),
         plot.title = element_text(size = rel(3), face = "bold", hjust = 0.5, 
                                   margin = margin(t = 10, b = 20, unit = "pt"))) +
-  labs(title = "Vox populii tweetuje")
+  labs(title = "Vox populi tweetuje")
 
 ggsave("ggplot.png", width = 16, height = 8, units = "in", dpi = 64) # čiliže 1024 na 512
 
