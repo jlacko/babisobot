@@ -15,7 +15,7 @@ Každý den ráno (v 5:50 [UTC](https://cs.wikipedia.org/wiki/Koordinovan%C3%BD_
 Nepřemýšlí přitom, jestli jsme si povídali hezké či ošklivé věci, podává pouze svědectví o tom jaké názory zazněly. Jako robot umí zpracovat pouze jedničky a nuly, neví co to jsou brýle - ani růžové, ani černé.
 
 Babišobot je zcela organický, bez přidaného cukru či umělých barviv, a 100% open source.
-<hr>
+- - - - -
 Technicky je Babišobot napsaný v [erku](https://www.r-project.org/), pro připojení na Twitterové API využívá knihovny `twitteR`. Běží na Amazon AWS, spouštění má na starost cron přes knihovnu `cronR`.  
 
 Protože data jsou příliš cenná na to, aby se odreportováním zahodila, jsou všechny zpracované tweety uloženy v PostgreSQL databázi.
