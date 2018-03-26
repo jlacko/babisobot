@@ -1,3 +1,6 @@
+# ať je v logu na co koukat... :)
+print(paste("Babišobot nastartován", Sys.time()))
+
 # cesta k packagím při spuštění z příkazové řádky (i.e. cron job)
 .libPaths("/usr/lib/R/site-library")
 
@@ -63,10 +66,10 @@ plot20 <- ggplot(data = freq[1:20,], aes(x = reorder(word, -n), y = n)) +
 ggsave("ggplot.png", width = 16, height = 8, units = "in", dpi = 64) # čiliže 1024 na 512
 
 # publikovat tweet
-tweet(paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'".', sep = ""), mediaPath = "ggplot.png")
+tweet(paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo"',freq[1,1],'".', sep = ""), mediaPath = "ggplot.png")
 
 # ať je v logu na co koukat... :)
-print(paste("Babišobot twitter run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo", freq[1,1])) 
+print(paste("Babišobot twitter run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo bylo", freq[1,1])) 
 
 
 
@@ -75,6 +78,8 @@ suppressMessages(library(dbplyr))
 suppressMessages(library(DBI))
 suppressMessages(library(RPostgreSQL))
 
+capture.output( {  # potichu - bez hlášek do logu
+  
 myDb <- dbConnect(dbDriver('PostgreSQL'),
                   host = "db.jla-data.net",
                   port = 5432,
@@ -98,5 +103,7 @@ dbSendQuery(myDb, "insert into babisobot select *, current_timestamp from stg_ba
 
 dbDisconnect(myDb) # úklid
 
+}, file = '/dev/null')
+
 # ať je v logu na co koukat... :)
-print(paste("Babišobot db run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), ".")) 
+print(paste("Babišobot database run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), ".")) 
