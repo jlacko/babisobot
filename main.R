@@ -31,7 +31,7 @@ setup_twitter_oauth(heslo$api_key,
 # Hlas lidu...
 tweets <- suppressWarnings( # varování o tom, že se stahlo tweetů málo není relevantní
                   searchTwitter(hledanyText, # Andrej Babiš v sedmi pádech
-                                n = 3200,  # tolik tweetů za den nebude, ale co kdyby...
+                                n = 5000,  # tolik tweetů za den nebude, ale co kdyby...
                                 lang = "cs", # šak sme česi, né?
                                 since = vcera, # od včerejška...
                                 until = dnes)) # ...do dneška 
@@ -87,7 +87,7 @@ myDb <- dbConnect(dbDriver('PostgreSQL'),
                   dbname = "dbase",
                   password = heslo$password)
 
-tweets <- suppressWarnings(searchTwitter(hledanyText, n = 3200, lang = "cs")) # bez ohledu na datum!
+tweets <- suppressWarnings(searchTwitter(hledanyText, n = 5000, lang = "cs")) # bez ohledu na datum!
 tweets <- tbl_df(map_df(tweets, as.data.frame))
 
 tweets$text <- iconv(tweets$text, "UTF-8", "UTF-8", sub = '') # pryč s non-UTF-8 znaky (nahrazuju empty stringem)
