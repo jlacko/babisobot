@@ -66,7 +66,7 @@ plot20 <- ggplot(data = freq[1:20,], aes(x = reorder(word, -n), y = n)) +
 ggsave("ggplot.png", width = 16, height = 8, units = "in", dpi = 64) # čiliže 1024 na 512
 
 # publikovat tweet
-tweet(paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo"',freq[1,1],'".', sep = ""), mediaPath = "ggplot.png")
+tweet(paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'".', sep = ""), mediaPath = "ggplot.png")
 
 # ať je v logu na co koukat... :)
 print(paste("Babišobot twitter run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo bylo", freq[1,1])) 
