@@ -14,7 +14,8 @@ suppressMessages(library(xkcd))
 suppressMessages(library(twitteR))
 
 # parametry
-hledanyText <- "Babiš OR Babiše OR Babišovi OR Babišem OR Babišův OR Babišova or Babišovo" # Andrej Babiš v sedmi pádech a dále...
+hledanyText <- "Babiš OR Babiše OR Babišovi OR Babišem OR Babišův OR Babišova OR Babišovo" 
+  # Andrej Babiš v sedmi pádech a třech přídavných jménech přivlastňvoacích 
 dnes <- as.character(Sys.Date()) # dnešek
 vcera <- as.character(Sys.Date() - 1) # včerejšek
 
