@@ -86,7 +86,7 @@ myDb <- dbConnect(dbDriver('PostgreSQL'),
                   dbname = "dbase",
                   password = heslo$password)
 
-tweets <- suppressWarnings(search_tweets(hledanyText, n = 50, lang = "cs", token = twitter_token)) %>% 
+tweets <- suppressWarnings(search_tweets(hledanyText, n = 5000, lang = "cs", token = twitter_token)) %>% 
   # bez ohledu na datum!
   transmute(text = text, 
             favorited = F,
@@ -102,7 +102,7 @@ tweets <- suppressWarnings(search_tweets(hledanyText, n = 50, lang = "cs", token
             retweetCount = retweet_count,
             isRetweet = is_retweet,
             longitude = NA,
-            lattitude = NA
+            latitude = NA
             )
 
 
