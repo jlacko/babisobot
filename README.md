@@ -14,9 +14,9 @@ Každý den ráno (v 5:50 [UTC](https://cs.wikipedia.org/wiki/Koordinovan%C3%BD_
 
 Babišobot je zcela organický, bez přidaného cukru či umělých barviv, a 100% open source.
 - - - - -
-Technicky je Babišobot napsaný v [erku](https://www.r-project.org/), pro připojení na Twitterové API využívá knihovny `twitteR`. Běží na Amazon AWS, pravidelné spouštění má na starost cron job přes knihovnu `cronR`.  
+Technicky je Babišobot napsaný v [erku](https://www.r-project.org/), pro připojení na Twitterové API využívá knihovny `rtweet`. Běží na Amazon AWS, pravidelné spouštění má na starost cron job přes knihovnu `cronR`.  
 
-Protože data jsou příliš cenná na to, aby se odreportováním zahodila, jsou všechny zpracované tweety uloženy v databázi.
+Protože data jsou příliš cenná na to, aby se odreportováním zahodila, jsou všechny zpracované tweety uloženy v databázi (z technických příčin jsou tweety do půlky dubna 2018 omezeny na prvních 140 znaků - jako "starý" twitter).
 
 Zájemci o studium podkladových dat jsou vítáni; k přístupu použijte tento kód:
 
