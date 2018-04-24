@@ -64,6 +64,10 @@ plot20 <- ggplot(data = freq[1:20,], aes(x = reorder(word, -n), y = n)) +
 
 ggsave("ggplot.png", width = 16, height = 8, units = "in", dpi = 64) # čiliže 1024 na 512
 
+vcera <- vcera %>% # hezčí formát včerejšího dne...
+  as.POSIXct() %>%
+  as.character(format = "%d.%m.%Y")
+
 # publikovat tweet
 post_tweet(paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'".', sep = ""), media = "ggplot.png", token = twitter_token)
 
