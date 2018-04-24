@@ -36,5 +36,6 @@ vignettes/*.pdf
 # Vlastní Babišobot:
 tajne-heslo.R
 heslo.rds
+token.rds
 ggplot.png
 main.log
