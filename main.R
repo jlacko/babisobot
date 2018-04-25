@@ -68,8 +68,12 @@ vcera <- vcera %>% # hezčí formát včerejšího dne...
   as.POSIXct() %>%
   as.character(format = "%d.%m.%Y")
 
+autor <- tweets$screen_name[which.max(tweets$favorite_count)] # autor tweetu s největším počtem lajků
+
 # publikovat tweet
-post_tweet(paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'".', sep = ""), media = "ggplot.png", token = twitter_token)
+obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'". Autor nejoblíbenějšího tweetu byl @',autor,'.', sep = "") # napřed na připravit...
+
+post_tweet(obsah, media = "ggplot.png", token = twitter_token) # ... potom vypublikovat :)
 
 # ať je v logu na co koukat... :)
 print(paste("Babišobot twitter run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo bylo", freq[1,1])) 
