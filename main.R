@@ -69,9 +69,11 @@ vcera <- vcera %>% # hezčí formát včerejšího dne...
   as.character(format = "%d.%m.%Y")
 
 autor <- tweets$screen_name[which.max(tweets$favorite_count)] # autor tweetu s největším počtem lajků
+status <- tweets$status_id[which.max(tweets$favorite_count)] # autor tweetu s největším počtem lajků
+
 
 # publikovat tweet
-obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'".\n Autorem nejlajkovanějšího tweetu byl @', autor,'.', sep = "") # napřed na připravit...
+obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'".\n Autorem nejlajkovanějšího tweetu byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
 
 post_tweet(obsah, media = "ggplot.png", token = twitter_token) # ... potom vypublikovat :)
 
@@ -94,7 +96,7 @@ myDb <- dbConnect(dbDriver('PostgreSQL'),
                   dbname = "dbase",
                   password = heslo$password)
 
-tweets <- suppressWarnings(search_tweets(hledanyText, n = 5000, lang = "cs", token = twitter_token)) %>% 
+tweets <- suppressWarnings(search_tweets(hledanyText, n = 5, lang = "cs", token = twitter_token)) %>% 
   # bez ohledu na datum!
   transmute(text = text, 
             favorited = F,
