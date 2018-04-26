@@ -10,13 +10,13 @@ Twitter bot gathering and reporting news about [Andrej Babiš](https://en.wikipe
 
 Babišobot je robot v sítích Internetu. Je to hodný robot, nesnaží se sociálních sítí použít k tomu, aby na nich vyvolal rozkol. Používá sociální sítě (konkrétně [Twitter](https://twitter.com/babisobot)) k tomu, aby nastavil zrcadlo nám, uživatelům.
 
-Každý den ráno (v 5:50 [UTC](https://cs.wikipedia.org/wiki/Koordinovan%C3%BD_sv%C4%9Btov%C3%BD_%C4%8Das) - čili krátce před osmou ranní [SELČ](https://cs.wikipedia.org/wiki/St%C5%99edoevropsk%C3%BD_letn%C3%AD_%C4%8Das)) olízne Twitterové API a podá zprávu o tom, co jsme si o panu Babišovi (včera manažerovi Petrimexu, dnes premiérovi v demisi a zítřek je tajemství pro nás všechny...) v uplynulém dni řekli.  
+Každý den ráno (v 6:50 [UTC](https://cs.wikipedia.org/wiki/Koordinovan%C3%BD_sv%C4%9Btov%C3%BD_%C4%8Das) - čili krátce před devátou ranní [SELČ](https://cs.wikipedia.org/wiki/St%C5%99edoevropsk%C3%BD_letn%C3%AD_%C4%8Das)) olízne Twitterové API a podá zprávu o tom, co jsme si o panu Babišovi - včera manažerovi Petrimexu, dnes premiérovi v demisi a zítřek je tajemství pro všechny - v uplynulém dni řekli.  
 
 Babišobot je zcela organický, bez přidaného cukru či umělých barviv, a 100% open source.
 - - - - -
 Technicky je Babišobot napsaný v [erku](https://www.r-project.org/), pro připojení na Twitterové API využívá knihovny `rtweet`. Běží na Amazon AWS, pravidelné spouštění má na starost cron job přes knihovnu `cronR`.  
 
-Protože data jsou příliš cenná na to, aby se odreportováním zahodila, jsou všechny zpracované tweety uloženy v databázi (z technických příčin jsou tweety do půlky dubna 2018 omezeny na prvních 140 znaků - jako "starý" twitter).
+Protože data jsou příliš cenná na to, aby se odreportováním zahodila, jsou všechny zpracované tweety uloženy v databázi (z technických příčin jsou tweety do půlky dubna 2018 omezeny na prvních 140 znaků - jako "starý" Twitter).
 
 Zájemci o studium podkladových dat jsou vítáni; k přístupu použijte tento kód:
 
