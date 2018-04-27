@@ -70,10 +70,11 @@ vcera <- vcera %>% # hezčí formát včerejšího dne...
 
 autor <- tweets$screen_name[which.max(tweets$favorite_count)] # autor tweetu s největším počtem lajků
 status <- tweets$status_id[which.max(tweets$favorite_count)] # autor tweetu s největším počtem lajků
+lajky <- tweets$favorite_count[which.max(tweets$favorite_count)] # nejvíce lajků ze všech
 
 
 # publikovat tweet
-obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'". Autorem nejlajkovanějšího tweetu byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
+obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'". Autorem tweetu s ', lajky, 'lajky byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
 
 post_tweet(obsah, media = "ggplot.png", token = twitter_token) # ... potom vypublikovat :)
 
