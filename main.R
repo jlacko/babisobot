@@ -74,7 +74,7 @@ lajky <- tweets$favorite_count[which.max(tweets$favorite_count)] # nejvíce lajk
 
 
 # publikovat tweet
-obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'". Autorem tweetu s ', lajky, 'lajky byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
+obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'". Autorem tweetu s ', lajky, ' lajky byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
 
 post_tweet(obsah, media = "ggplot.png", token = twitter_token) # ... potom vypublikovat :)
 
