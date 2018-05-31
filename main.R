@@ -21,7 +21,7 @@ dnes <- as.character(Sys.Date()) # dnešek
 vcera <- as.character(Sys.Date() - 1) # včerejšek
 
 # balast = stopwords; slovní vata nepřinášející informace
-balast <- c("babiš", "babiše", "babišovi", "babišem", "andrej", "andreje", "andrejovi", "andrejem", "ten", "rt", "t.c", "http", "https", "a", "na", "že", "už", "to", "v", "se", "u", "mi", "po", "aby","když", "asi", "já", "k", "má",  "že", "je", "jsem", "jsme","o", "za", "si", "ale", "s", "z", "ale", "už", "tak", "jako", "do", "ve", "pro", "co", "t.co", "i", "od", "by", "mě", "jak", "mu", "jen", "ten", "bude")
+balast <- c("babiš", "babiše", "babišovi", "babišem", "andrej", "andreje", "andrejovi", "andrejem", "ten", "rt", "t.c", "http", "https", "a", "na", "že", "už", "to", "v", "se", "u", "mi", "po", "aby","když", "asi", "já", "k", "má",  "že", "je", "jsem", "jsme","o", "za", "si", "ale", "s", "z", "ale", "už", "tak", "jako", "do", "ve", "pro", "co", "t.co", "i", "od", "by", "mě", "jak", "mu", "jen", "ten", "bude", "babis")
 
 # Připojení 
 heslo <- readRDS("~/babisobot/heslo.rds")  # tajné heslo do databáze, viz. gitignore :)
