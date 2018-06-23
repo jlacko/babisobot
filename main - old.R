@@ -5,11 +5,13 @@ print(paste("Babišobot nastartován", Sys.time()))
 .libPaths("/usr/lib/R/site-library")
 
 # Načtení knihoven potichu! (ať nekazí log)
-library(udpipe)
-library(rtweet)
-library(stringr)
-suppressMessages(library(tidyverse))
+suppressMessages(library(purrr))
+suppressMessages(library(dplyr))
+suppressMessages(library(stringr))
+suppressMessages(library(tidytext))
+suppressMessages(library(ggplot2))
 suppressMessages(library(xkcd))
+suppressMessages(library(rtweet))
 
 # parametry
 hledanyText <- "Babiš OR Babiše OR Babišovi OR Babišem OR Babišův OR Babišova OR Babišovo" 
@@ -19,12 +21,11 @@ dnes <- as.character(Sys.Date()) # dnešek
 vcera <- as.character(Sys.Date() - 1) # včerejšek
 
 # balast = stopwords; slovní vata nepřinášející informace
-balast <- c("Babiš", "Andrej", "ten", "rt", "t.c", "http", "https", "a", "na", "že", "už", "to", "v", "se", "u", "mi", "po", "aby", "když", "asi", "já", "k", "má",  "že", "být", "jsem", "jsme", "o", "za", "si", "ale", "s", "z", "ale", "už", "tak", "jako", "do", "ve", "pro", "co", "t.co", "i", "od", "by", "mě", "jak", "mu", "jen", "ten", "Babis", "on", "který", "jeho")
+balast <- c("babiš", "babiše", "babišovi", "babišem", "andrej", "andreje", "andrejovi", "andrejem", "ten", "rt", "t.c", "http", "https", "a", "na", "že", "už", "to", "v", "se", "u", "mi", "po", "aby","když", "asi", "já", "k", "má",  "že", "je", "jsem", "jsme","o", "za", "si", "ale", "s", "z", "ale", "už", "tak", "jako", "do", "ve", "pro", "co", "t.co", "i", "od", "by", "mě", "jak", "mu", "jen", "ten", "bude", "babis")
 
 # Připojení 
 heslo <- readRDS("~/babisobot/heslo.rds")  # tajné heslo do databáze, viz. gitignore :)
 twitter_token <- readRDS("~/babisobot/token.rds")  # tajné heslo k twitteru, dtto.
-udmodel <- udpipe_load_model(file = "czech-ud-2.0-170801.udpipe") # načtení modelu pro udpipe
 
 # Hlas lidu...
 tweets <- suppressWarnings( # varování o tom, že se stahlo tweetů málo není relevantní
@@ -33,15 +34,15 @@ tweets <- suppressWarnings( # varování o tom, že se stahlo tweetů málo nen�
                                 lang = "cs", # šak sme česi, né?
                                 since = vcera, # od včerejška...
                                 until = dnes,
-                                token = twitter_token)) %>% # ...do dneška 
-          mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|&amp;", ""))
+                                token = twitter_token)) # ...do dneška 
 
 # Vlastní těžení...
-words <- udpipe_annotate(udmodel, x = tweets$text) %>% # UDPIPE provede svojí magii...
-  as.data.frame() %>%
-  filter(!upos %in% c("NUM", "PUNCT")) %>% # pryč s nevhodnými typy "slov"
-  select(word = lemma) %>%
-  filter(!word %in% balast) # pryč s balastem nepřinášejícím informaci
+words <- tweets %>%
+  transmute(id = status_id, text = text, created = created_at) %>%
+  select(id, text, created) %>%
+  mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|&amp;", "")) %>%  # pryč s odkazy!
+  unnest_tokens(word, text, token = "words") %>%  # převede do lowercase defaultně
+  filter(!word %in% balast, str_detect(word, "[a-z]"))  # odstraní balast
 
 freq <- words %>%
   count(word) %>%
@@ -80,8 +81,9 @@ post_tweet(obsah, media = "ggplot.png", token = twitter_token) # ... potom vypub
 # ať je v logu na co koukat... :)
 print(paste("Babišobot twitter run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo bylo", freq[1,1])) 
 
+
+
 # databázový běh: načíst posledních 5000 tweetů, uložit do stage vrstvy a nové IDčka překlopit do "ostré" tabulky
-detach("package:udpipe", unload = T, character.only = T) # uvolnit místo..
 suppressMessages(library(dbplyr))
 suppressMessages(library(DBI))
 suppressMessages(library(RPostgreSQL))

@@ -39,3 +39,6 @@ heslo.rds
 token.rds
 ggplot.png
 main.log
+
+# slovníky udpipe
+*.udpipe
