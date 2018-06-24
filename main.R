@@ -24,7 +24,7 @@ balast <- c("Babiš", "Andrej", "ten", "rt", "t.c", "http", "https", "a", "na", 
 # Připojení 
 heslo <- readRDS("~/babisobot/heslo.rds")  # tajné heslo do databáze, viz. gitignore :)
 twitter_token <- readRDS("~/babisobot/token.rds")  # tajné heslo k twitteru, dtto.
-udmodel <- udpipe_load_model(file = "czech-ud-2.0-170801.udpipe") # načtení modelu pro udpipe
+udmodel <- udpipe_load_model(file = "~/babisobot/czech-ud-2.0-170801.udpipe") # načtení modelu pro udpipe
 
 # Hlas lidu...
 tweets <- suppressWarnings( # varování o tom, že se stahlo tweetů málo není relevantní
@@ -68,12 +68,12 @@ vcera <- vcera %>% # hezčí formát včerejšího dne...
   as.character(format = "%d.%m.%Y")
 
 autor <- tweets$screen_name[which.max(tweets$favorite_count)] # autor tweetu s největším počtem lajků
-status <- tweets$status_id[which.max(tweets$favorite_count)] # autor tweetu s největším počtem lajků
+status <- tweets$status_id[which.max(tweets$favorite_count)] # status_id tweetu s největším počtem lajků
 lajky <- tweets$favorite_count[which.max(tweets$favorite_count)] # nejvíce lajků ze všech
 
 
 # publikovat tweet
-obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali slovo "',freq[1,1],'". Autorem tweetu s ', lajky, ' lajky byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
+obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali téma "',freq[1,1],'". Autorem tweetu s ', lajky, ' lajky byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
 
 post_tweet(obsah, media = "ggplot.png", token = twitter_token) # ... potom vypublikovat :)
 
