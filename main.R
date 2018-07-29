@@ -34,7 +34,8 @@ tweets <- suppressWarnings( # varování o tom, že se stahlo tweetů málo nen�
                                 since = vcera, # od včerejška...
                                 until = dnes,
                                 token = twitter_token)) %>% # ...do dneška 
-          mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|&amp;", ""))
+          mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|&amp;", "")) %>%
+  filter(!(str_detect(text, "Russia") & str_detect(text, "Italy"))) # zachvatčiki, iditě domoj
 
 # Vlastní těžení...
 words <- udpipe_annotate(udmodel, x = tweets$text) %>% # UDPIPE provede svojí magii...
@@ -43,6 +44,7 @@ words <- udpipe_annotate(udmodel, x = tweets$text) %>% # UDPIPE provede svojí m
   select(word = lemma) %>%
   filter(!word %in% balast) # pryč s balastem nepřinášejícím informaci
 
+  
 freq <- words %>%
   count(word) %>%
   arrange(desc(n))
@@ -75,7 +77,7 @@ lajky <- tweets$favorite_count[which.max(tweets$favorite_count)] # nejvíce lajk
 # publikovat tweet
 obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali téma "',freq[1,1],'". Autorem tweetu s ', lajky, ' lajky byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
 
-post_tweet(obsah, media = "ggplot.png", token = twitter_token) # ... potom vypublikovat :)
+#post_tweet(obsah, media = "ggplot.png", token = twitter_token) # ... potom vypublikovat :)
 
 # ať je v logu na co koukat... :)
 print(paste("Babišobot twitter run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo bylo", freq[1,1])) 
@@ -86,7 +88,7 @@ suppressMessages(library(dbplyr))
 suppressMessages(library(DBI))
 suppressMessages(library(RPostgreSQL))
 
-capture.output( { # potichu - bez hlášek do logu
+capture.output( {  # potichu - bez hlášek do logu
   
 myDb <- dbConnect(dbDriver('PostgreSQL'),
                   host = "db.jla-data.net",
