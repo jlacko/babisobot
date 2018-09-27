@@ -12,14 +12,14 @@ suppressMessages(library(tidyverse))
 suppressMessages(library(xkcd))
 
 # parametry
-hledanyText <- "Babiš OR Babiše OR Babišovi OR Babišem OR Babišův OR Babišova OR Babišovo" 
+hledanyText <- "Babiš OR Babiše OR Babišovi OR Babišem OR Babišův OR Babišova OR Babišovo OR @AndrejBabis" 
   # Andrej Babiš v sedmi pádech a třech přídavných jménech přivlastňovacích 
 
 dnes <- as.character(Sys.Date()) # dnešek
 vcera <- as.character(Sys.Date() - 1) # včerejšek
 
 # balast = stopwords; slovní vata nepřinášející informace
-balast <- c("Babiš", "Andrej", "ten", "rt", "t.c", "http", "https", "a", "na", "že", "už", "to", "v", "se", "u", "mi", "po", "aby", "když", "asi", "já", "k", "má",  "že", "být", "jsem", "jsme", "o", "za", "si", "ale", "s", "z", "ale", "už", "tak", "jako", "do", "ve", "pro", "co", "t.co", "i", "od", "by", "mě", "jak", "mu", "mít", "jen", "ten", "Babis", "on", "který",
+balast <- c("AndrejBabis", "Babiš", "Andrej", "ten", "rt", "t.c", "http", "https", "a", "na", "že", "už", "to", "v", "se", "u", "mi", "po", "aby", "když", "asi", "já", "k", "má",  "že", "být", "jsem", "jsme", "o", "za", "si", "ale", "s", "z", "ale", "už", "tak", "jako", "do", "ve", "pro", "co", "t.co", "i", "od", "by", "mě", "jak", "mu", "mít", "jen", "ten", "Babis", "on", "který",
 "jeho", "Babišův")
 
 # Připojení 
@@ -43,6 +43,7 @@ words <- udpipe_annotate(udmodel, x = tweets$text) %>% # UDPIPE provede svojí m
   as.data.frame() %>%
   filter(!upos %in% c("NUM", "PUNCT")) %>% # pryč s nevhodnými typy "slov"
   select(word = lemma) %>%
+  filter(!is.na(word)) %>% # prázdná slova nechceme
   filter(!word %in% balast) # pryč s balastem nepřinášejícím informaci
 
   
