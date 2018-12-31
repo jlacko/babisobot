@@ -75,11 +75,13 @@ autor <- tweets$screen_name[which.max(tweets$favorite_count)] # autor tweetu s n
 status <- tweets$status_id[which.max(tweets$favorite_count)] # status_id tweetu s největším počtem lajků
 lajky <- tweets$favorite_count[which.max(tweets$favorite_count)] # nejvíce lajků ze všech
 
+# připravit obrázek s wordcloudem
+source('generate-chart.R')
 
 # publikovat tweet
 obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali téma "',freq[1,1],'". Autorem tweetu s ', lajky, ' lajky byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
 
-post_tweet(obsah, media = "ggplot.png", token = twitter_token) # ... potom vypublikovat :)
+post_tweet(obsah, media = "wcloud.png", token = twitter_token) # ... potom vypublikovat :)
 
 # ať je v logu na co koukat... :)
 print(paste("Babišobot twitter run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo bylo", freq[1,1])) 
