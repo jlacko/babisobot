@@ -65,7 +65,7 @@ plot20 <- ggplot(data = freq[1:20,], aes(x = reorder(word, -n), y = n)) +
                                   margin = margin(t = 10, b = 20, unit = "pt"))) +
   labs(title = "Vox populi tweetuje")
 
-ggsave("ggplot.png", width = 16, height = 8, units = "in", dpi = 64) # čiliže 1024 na 512
+ggsave("~/babisobot/ggplot.png", width = 16, height = 8, units = "in", dpi = 64) # čiliže 1024 na 512
 
 vcera <- vcera %>% # hezčí formát včerejšího dne...
   as.POSIXct() %>%
@@ -76,12 +76,12 @@ status <- tweets$status_id[which.max(tweets$favorite_count)] # status_id tweetu 
 lajky <- tweets$favorite_count[which.max(tweets$favorite_count)] # nejvíce lajků ze všech
 
 # připravit obrázek s wordcloudem
-source('generate-chart.R')
+source('~/babisobot/generate-chart.R')
 
 # publikovat tweet
 obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali téma "',freq[1,1],'". Autorem tweetu s ', lajky, ' lajky byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
 
-post_tweet(obsah, media = "wcloud.png", token = twitter_token) # ... potom vypublikovat :)
+post_tweet(obsah, media = "~/babisobot/wcloud.png", token = twitter_token) # ... potom vypublikovat :)
 
 # ať je v logu na co koukat... :)
 print(paste("Babišobot twitter run za", vcera, "doběhl v", Sys.time(), "GMT, tweetů bylo", nrow(tweets), "a nejčastější slovo bylo", freq[1,1])) 
