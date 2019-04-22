@@ -1,9 +1,9 @@
 # z objektu tweets vytvoří a uloží obrázek
 
 # Vlastní těžení...
-slova <- udpipe_annotate(udmodel, x = tweets$text, doc_id = tweets$status_id) %>% # UDPIPE provede svojí magii...
+slova <- udpipe_annotate(udmodel, x = filter(tweets, !is_retweet)$text) %>% # UDPIPE provede svojí magii...
   as.data.frame() %>%
-  subset(upos %in% c('NOUN', 'VERB', 'PROPN', 'ADJ') & !lemma %in% balast) # balast = stopwords definované v main.R
+  subset(upos %in% c('NOUN', 'VERB', 'PROPN', 'ADJ', 'ADV') & !lemma %in% balast) # balast = stopwords definované v main.R
 
 freq <- slova %>%
   count(lemma) %>%
