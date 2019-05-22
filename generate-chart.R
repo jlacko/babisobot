@@ -13,6 +13,6 @@ if (freq[1,2] > 1.5*freq[2,2]) freq[1,2] <- 1.5*freq[2,2]  # snížit prominenci
 
 library(wordcloud)
 png(filename = "~/babisobot/wcloud.png", width = 800, height = 800/1.91, res = 100)
-  wordcloud(freq$lemma, freq$n, max.words = 100, 
+  wordcloud(freq$lemma, freq$n, max.words = 100, scale = c(3.25, 0.5),
             random.order = F, colors=rev(brewer.pal(6,"RdYlGn")))
 dev.off()
