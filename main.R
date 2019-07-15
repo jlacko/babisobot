@@ -29,7 +29,7 @@ udmodel <- udpipe_load_model(file = "~/babisobot/czech-ud-2.0-170801.udpipe") # 
 # Hlas lidu...
 tweets <- suppressWarnings( # varování o tom, že se stahlo tweetů málo není relevantní
                   search_tweets(hledanyText, # Andrej Babiš v sedmi pádech
-                                n = 5000,  # tolik tweetů za den nebude, ale co kdyby...
+                                n = 7500,  # tolik tweetů za den nebude, ale co kdyby...
                                 lang = "cs", # šak sme česi, né?
                                 since = vcera, # od včerejška...
                                 until = dnes,
@@ -38,7 +38,7 @@ tweets <- suppressWarnings( # varování o tom, že se stahlo tweetů málo nen�
   filter(!(str_detect(text, "Russia") & str_detect(text, "Italy"))) # zachvatčiki, iditě domoj
 
 # Vlastní těžení...
-words <- udpipe_annotate(udmodel, x = tweets$text) %>% # UDPIPE provede svojí magii...
+words <- udpipe_annotate(udmodel, x = tweets$text, parallel.cores = 2) %>% # UDPIPE provede svojí magii...
   as.data.frame() %>%
   filter(!upos %in% c("NUM", "PUNCT")) %>% # pryč s nevhodnými typy "slov"
   select(word = lemma) %>%
@@ -91,7 +91,7 @@ suppressMessages(library(dbplyr))
 suppressMessages(library(DBI))
 suppressMessages(library(RPostgreSQL))
 
-capture.output( {  # potichu - bez hlášek do logu
+capture.output( { # potichu - bez hlášek do logu
   
 myDb <- dbConnect(dbDriver('PostgreSQL'),
                   host = "db.jla-data.net",
@@ -100,7 +100,7 @@ myDb <- dbConnect(dbDriver('PostgreSQL'),
                   dbname = "dbase",
                   password = heslo$password)
 
-tweets <- suppressWarnings(search_tweets(hledanyText, n = 5000, lang = "cs", token = twitter_token)) %>% 
+tweets <- suppressWarnings(search_tweets(hledanyText, n = 7500, lang = "cs", token = twitter_token)) %>% 
   # bez ohledu na datum!
   transmute(text = text, 
             favorited = F,
