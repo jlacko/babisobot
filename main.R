@@ -37,35 +37,6 @@ tweets <- suppressWarnings( # varování o tom, že se stahlo tweetů málo nen�
           mutate(text = str_replace_all(text, "https://t.co/[A-Za-z\\d]+|&amp;", "")) %>%
   filter(!(str_detect(text, "Russia") & str_detect(text, "Italy"))) # zachvatčiki, iditě domoj
 
-# Vlastní těžení...
-words <- udpipe_annotate(udmodel, x = tweets$text, parallel.cores = 2) %>% # UDPIPE provede svojí magii...
-  as.data.frame() %>%
-  filter(!upos %in% c("NUM", "PUNCT")) %>% # pryč s nevhodnými typy "slov"
-  select(word = lemma) %>%
-  filter(!is.na(word)) %>% # prázdná slova nechceme
-  filter(!word %in% balast) # pryč s balastem nepřinášejícím informaci
-
-  
-freq <- words %>%
-  count(word) %>%
-  arrange(desc(n))
-
-
-# uložit ggplot
-plot20 <- ggplot(data = freq[1:20,], aes(x = reorder(word, -n), y = n)) +
-  geom_col(fill = "darkgoldenrod2") +
-  theme_xkcd() +
-  theme(axis.title.x = element_blank(),
-        axis.title.y = element_blank(),
-        axis.ticks = element_blank(),
-        axis.text = element_text(size = rel(2)),
-        axis.text.x = element_text(angle = 90, hjust = 1),
-        plot.title = element_text(size = rel(3), face = "bold", hjust = 0.5, 
-                                  margin = margin(t = 10, b = 20, unit = "pt"))) +
-  labs(title = "Vox populi tweetuje")
-
-ggsave("~/babisobot/ggplot.png", width = 16, height = 8, units = "in", dpi = 64) # čiliže 1024 na 512
-
 vcera <- vcera %>% # hezčí formát včerejšího dne...
   as.POSIXct() %>%
   as.character(format = "%d.%m.%Y")
@@ -80,6 +51,7 @@ source('~/babisobot/generate-chart.R')
 # publikovat tweet
 obsah <- paste('Babišobot pátrá, radí, informuje: včera (', vcera, ') jsme o @AndrejBabis tweetovali ', nrow(tweets), 'x a nejčastěji zmiňovali téma "',freq[1,1],'". Autorem tweetu s ', lajky, ' lajky byl @', autor,' - https://twitter.com/i/web/status/', status , sep = "") # napřed na připravit...
 
+
 post_tweet(obsah, media = "~/babisobot/wcloud.png", token = twitter_token) # ... potom vypublikovat :)
 
 # ať je v logu na co koukat... :)
@@ -91,7 +63,7 @@ suppressMessages(library(dbplyr))
 suppressMessages(library(DBI))
 suppressMessages(library(RPostgreSQL))
 
-capture.output( { # potichu - bez hlášek do logu
+capture.output( {# potichu - bez hlášek do logu
   
 myDb <- dbConnect(dbDriver('PostgreSQL'),
                   host = "db.jla-data.net",
