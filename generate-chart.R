@@ -3,6 +3,7 @@
 # Vlastní těžení...
 slova <- udpipe_annotate(udmodel, x = tweets$text, doc_id = tweets$status_id, parallel.cores = 2) %>% # UDPIPE provede svojí magii...
   as.data.frame() %>%
+  mutate(lemma = ifelse(token == "Krym", "Krym", lemma)) %>% # Krym je Krym, ne Kry... (... a syna dáváš katu) 
   subset(upos %in% c('NOUN', 'VERB', 'PROPN', 'ADJ', 'ADV') & !lemma %in% balast) # balast = stopwords definované v main.R
 
 retweety <- tweets %>% 
