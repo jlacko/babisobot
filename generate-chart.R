@@ -1,10 +1,13 @@
 # z objektu tweets vytvoří a uloží obrázek
 
 # Vlastní těžení...
-slova <- udpipe_annotate(udmodel, x = tweets$text, doc_id = tweets$status_id, parallel.cores = 2) %>% # UDPIPE provede svojí magii...
+slova <- udpipe_annotate(udmodel, x = tweets$text, tokenizer = "tokenizer=SpacesInToken=@", 
+                         doc_id = tweets$status_id, parallel.cores = 2) %>% # UDPIPE provede svojí magii...
   as.data.frame() %>%
   mutate(lemma = ifelse(token %in% excepto_lemmas, token, lemma)) %>% # pro tyto tokeny se nepoužije lemma, ale sám token
-  subset(upos %in% c('NOUN', 'VERB', 'PROPN', 'ADJ', 'ADV') & !lemma %in% balast) # balast = stopwords definované v main.R
+  mutate(byl_zavinac = ifelse(lag(token) == "@", T, F)) %>% 
+  filter(upos %in% c('NOUN', 'VERB', 'PROPN', 'ADJ', 'ADV') & !lemma %in% balast) %>%  # balast = stopwords definované v main.R
+  filter(!byl_zavinac)
 
 retweety <- tweets %>% 
   mutate(vaha = ifelse(is_retweet, 1/2, 1)) %>%  # váha retweetu je poloviční proti originálu

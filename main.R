@@ -9,7 +9,6 @@ library(udpipe)
 library(rtweet)
 library(stringr)
 suppressMessages(library(tidyverse))
-suppressMessages(library(xkcd))
 
 # parametry
 hledanyText <- "Babiš OR Babiše OR Babišovi OR Babišem OR Babišův OR Babišova OR Babišovo OR @AndrejBabis" 
@@ -19,10 +18,10 @@ dnes <- as.character(Sys.Date()) # dnešek
 vcera <- as.character(Sys.Date() - 1) # včerejšek
 
 # balast = stopwords; slovní vata nepřinášející informace
-balast <- c("AndrejBabis", "Babiš", "Andrej", "ten", "rt", "t.c", "http", "https", "a", "na", "že", "už", "to", "v", "se", "u", "mi", "po", "aby", "když", "asi", "já", "k", "má",  "že", "být", "jsem", "jsme", "o", "za", "si", "ale", "s", "z", "ale", "už", "tak", "jako", "do", "ve", "pro", "co", "t.co", "i", "od", "by", "mě", "jak", "mu", "mít", "moci", "chtít", "jen", "ten", "Babis", "on", "který", "jeho", "Babišův", "člověk")
+balast <- c("AndrejBabis", "Babiš", "Andrej", "ten", "rt", "t.c", "http", "https", "a", "na", "že", "už", "to", "v", "se", "u", "mi", "po", "aby", "když", "asi", "já", "k", "má",  "že", "být", "jsem", "jsme", "o", "za", "si", "ale", "s", "z", "ale", "už", "tak", "jako", "do", "ve", "pro", "co", "t.co", "i", "od", "by", "mě", "jak", "mu", "mít", "moci", "chtít", "jen", "ten", "Babis", "on", "který", "jeho", "Babišův", "AB")
 
 # výjimky z lemmatizace
-excepto_lemmas <- c("Krym")
+excepto_lemmas <- c("Krym", "kalousekm")
 
 # Připojení 
 heslo <- readRDS("~/babisobot/heslo.rds")  # tajné heslo do databáze, viz. gitignore :)
@@ -32,7 +31,7 @@ udmodel <- udpipe_load_model(file = "~/babisobot/czech-ud-2.0-170801.udpipe") # 
 # Hlas lidu...
 tweets <- suppressWarnings( # varování o tom, že se stahlo tweetů málo není relevantní
                   search_tweets(hledanyText, # Andrej Babiš v sedmi pádech
-                                n = 7500,  # tolik tweetů za den nebude, ale co kdyby...
+                                n = 15000,  # tolik tweetů za den nebude, ale co kdyby...
                                 lang = "cs", # šak sme česi, né?
                                 since = vcera, # od včerejška...
                                 until = dnes,
@@ -75,7 +74,7 @@ myDb <- dbConnect(dbDriver('PostgreSQL'),
                   dbname = "dbase",
                   password = heslo$password)
 
-tweets <- suppressWarnings(search_tweets(hledanyText, n = 7500, lang = "cs", token = twitter_token)) %>% 
+tweets <- suppressWarnings(search_tweets(hledanyText, n = 15000, lang = "cs", token = twitter_token)) %>% 
   # bez ohledu na datum!
   transmute(text = text, 
             favorited = F,
