@@ -18,7 +18,7 @@ dnes <- as.character(Sys.Date()) # dnešek
 vcera <- as.character(Sys.Date() - 1) # včerejšek
 
 # balast = stopwords; slovní vata nepřinášející informace
-balast <- c("AndrejBabis", "Babiš", "Andrej", "ten", "rt", "t.c", "http", "https", "a", "na", "že", "už", "to", "v", "se", "u", "mi", "po", "aby", "když", "asi", "já", "k", "má",  "že", "být", "jsem", "jsme", "o", "za", "si", "ale", "s", "z", "ale", "už", "tak", "jako", "do", "ve", "pro", "co", "t.co", "i", "od", "by", "mě", "jak", "mu", "mít", "moci", "chtít", "jen", "ten", "Babis", "on", "který", "jeho", "Babišův", "AB")
+balast <- c("AndrejBabis", "Babiš", "Andrej", "ten", "rt", "t.c", "http", "https", "a", "na", "že", "už", "to", "v", "se", "u", "mi", "po", "aby", "když", "asi", "já", "k", "má",  "že", "být", "jsem", "jsme", "o", "za", "si", "ale", "s", "z", "ale", "už", "tak", "jako", "do", "ve", "pro", "co", "t.co", "i", "od", "by", "mě", "jak", "mu", "mít", "moci", "chtít", "jen", "ten", "Babis", "on", "který", "jeho", "Babišův", "AB", "člověk")
 
 # výjimky z lemmatizace
 excepto_lemmas <- c("Krym", "kalousekm")
